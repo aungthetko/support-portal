@@ -1,10 +1,8 @@
 package com.demo.supportportal.filter;
 
-import com.demo.supportportal.constants.SecurityConstants;
 import com.demo.supportportal.utility.JWTTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
