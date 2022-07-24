@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 
 import static com.demo.supportportal.constants.SecurityConstants.FORBIDDEN_MESSAGE;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -21,7 +22,7 @@ public class JWTAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        HttpStatusResponse httpStatusResponse = new HttpStatusResponse(UNAUTHORIZED.value(),
+        HttpStatusResponse httpStatusResponse = new HttpStatusResponse(new Date(), UNAUTHORIZED.value(),
                 UNAUTHORIZED, UNAUTHORIZED.getReasonPhrase().toUpperCase(), FORBIDDEN_MESSAGE);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(UNAUTHORIZED.value());

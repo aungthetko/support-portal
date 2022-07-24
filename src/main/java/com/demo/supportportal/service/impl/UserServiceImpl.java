@@ -19,17 +19,17 @@ import java.util.Date;
 @AllArgsConstructor
 @Service
 @Transactional
-@Qualifier("UserDetailService ")
+@Qualifier("UserDetailService")
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private Logger LOGGER = LoggerFactory.getLogger(getClass());
+    // private Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username);
         if(user == null){
-            LOGGER.info("User not found with that name : " + username);
+            // LOGGER.info("User not found with that name : " + username);
             throw new UsernameNotFoundException("User not found with that name : " + username);
         }else{
             user.setLastLoginDateDisplay(user.getLastLoginDate());
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userRepository.save(user);
             UserPrincipal userPrincipal = new UserPrincipal(user);
 
-            LOGGER.info("Returning founded user : " + username);
+            // LOGGER.info("Returning founded user : " + username);
             return userPrincipal;
         }
     }

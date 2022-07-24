@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 
 import static com.demo.supportportal.constants.SecurityConstants.FORBIDDEN_MESSAGE;
 import static org.springframework.http.HttpStatus.*;
@@ -20,7 +21,7 @@ public class JWTAuthenticationEntryPoint extends Http403ForbiddenEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2) throws IOException {
-        HttpStatusResponse httpStatusResponse = new HttpStatusResponse(FORBIDDEN.value(),
+        HttpStatusResponse httpStatusResponse = new HttpStatusResponse(new Date(), FORBIDDEN.value(),
                 FORBIDDEN, FORBIDDEN.getReasonPhrase().toUpperCase(), FORBIDDEN_MESSAGE);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(FORBIDDEN.value());
