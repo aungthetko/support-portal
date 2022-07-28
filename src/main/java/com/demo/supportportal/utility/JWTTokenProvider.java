@@ -33,7 +33,7 @@ public class JWTTokenProvider {
     public String generateToken(UserPrincipal userPrincipal){
         String[] claims = getClaimsFromUser(userPrincipal);
         return JWT.create().withIssuer(ATK_LLC)
-                .withAudience(ATK_ADMINISTRATION )
+                .withAudience(ATK_ADMINISTRATION)
                 .withIssuedAt(new Date())
                 .withSubject(userPrincipal.getUsername())
                 .withArrayClaim(AUTHORITIES, claims)

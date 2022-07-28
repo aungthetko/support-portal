@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -14,7 +15,7 @@ import java.util.Date;
 public class HttpStatusResponse {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
-    private Date timeStamp;
+    private LocalDateTime timeStamp;
     private int statusCode;
     private HttpStatus status;
     private String reason;
