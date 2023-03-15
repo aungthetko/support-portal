@@ -1,6 +1,7 @@
 package com.demo.supportportal.exception;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.demo.supportportal.constants.ErrorController;
 import com.demo.supportportal.domain.HttpStatusResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.NoResultException;
@@ -22,7 +24,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @RestControllerAdvice
-public class ExceptionHandling {
+public class ExceptionHandling implements ErrorController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private static final String ACCOUNT_LOCKED = "Your account has been locked. Please contact to your administrator";
@@ -32,7 +34,7 @@ public class ExceptionHandling {
     private static final String ACCOUNT_DISABLED = "Your account has been disabled. Please contact to your administrator";
     private static final String ERROR_PROCESSING_FILE = "Error occurred when processing file";
     private static final String NOT_ENOUGH_PERMISSION = "You do not have enough permission";
-
+    public static final String ERROR_PATH = "/error";
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<HttpStatusResponse> accountDisabledException(){
         return createHttpResponse(HttpStatus.BAD_REQUEST, ACCOUNT_DISABLED);
@@ -102,9 +104,20 @@ public class ExceptionHandling {
         return createHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_PROCESSING_FILE);
     }
 
+    @RequestMapping(ERROR_PATH)
+    public ResponseEntity<HttpStatusResponse> notFound404(){
+        return createHttpResponse(HttpStatus.NOT_FOUND,
+                "404 - This page was not found");
+    }
+
     private ResponseEntity<HttpStatusResponse> createHttpResponse(HttpStatus httpStatus, String message){
         HttpStatusResponse httpResponse = new HttpStatusResponse(LocalDateTime.now(), httpStatus.value(),
                 httpStatus, httpStatus.getReasonPhrase().toUpperCase(), message);
         return new ResponseEntity<>(httpResponse, httpStatus);
+    }
+
+    @Override
+    public String getErrorPath() {
+        return ERROR_PATH;
     }
 }
